@@ -195,7 +195,7 @@ if (birthYear <= 2000) {
 console.log(century);
 */
 
-// **** LESSON 19 CHALLENGE
+// **** LESSON 19 CODING CHALLENGE
 
 // const markWeight1 = 78;
 // const markHeight1 = 1.69;
@@ -222,4 +222,241 @@ console.log(century);
 //     console.log(`Mark's BMI (${markBmi1}) is higher than John's (${johnBmi1})!`);
 // } else {
 //     console.log(`John's BMI (${johnBmi1})is higher than Mark's (${markBmi1})!`);
+// } 
+
+// **** LESSON 20
+/*
+// type conversion
+const inputYear = '1991';
+console.log(Number(inputYear), inputYear);
+console.log(Number(inputYear) + 18);
+
+//What happens when we try something that cannot be converted?
+console.log(Number("Jonas"));
+console.log(typeof NaN);
+
+console.log(String(23), 23);
+
+// type coercion
+console.log('I am ' + 23 + ' years old'); //type coercion automatically changes the number to a string
+console.log('I am ' + '23' + ' years old'); //same result as above 
+console.log('I am ' + String(23) + ' years old'); //If JS didn't have built-in coercion, we would have to do it manually
+
+// different operators handle coercion differently
+console.log('23' - '10' - 3); //minus operator converts to numbers
+console.log('23' + '10' + 3); //plus operator converts to string
+console.log('23' * '10'); //multiplication converts to numbers
+console.log('23' / '10'); //as does dividing
+console.log('23' > '18'); //logical operator the same
+
+//guess the outcome
+let n = '1' + 1 //converts to string and concatenates to 11
+n = n - 1 //converts to number and deducts 1 = 10
+console.log(n)
+
+//note that numbers are added left to right normally and only concatenated when the string is encountered
+let mix = 2 + 3 + 4 + '5' // = 95
+console.log(mix)
+//note that the strings are deducted normally and the output only converted to string and concatenated when the '+' is reached
+let mix2 = '10' - '4' - '3' - 2 + '5' // = 15
+console.log(mix2)
+
+*/
+
+// ****LESSON 21
+/*
+//THE 5 FALSY VALUES : 0/ '' / undefined / null / NaN
+
+console.log(Boolean(0))
+console.log(Boolean(undefined))
+console.log(Boolean('Jonas')) // not an empty string
+console.log(Boolean({})) // empty object
+console.log(Boolean('')) // empty string
+// In truth, we will almost never use the 'Boolean' function in practice. It is done implicitly by JS in the background via Type Coercion
+
+
+// In the logical context, JS will try to convert any value to Boolean, in this instance 'money'
+const money = 0;
+if (money) {
+    console.log("Don't spend it all ;)")
+} else {
+    console.log('You should get a job!')
+}
+
+// Check if a variable is actually defined
+//height is undefined. Undefined is a falsy value, hence the 2nd value will be executed. In this instance, there is a bug in the code, because if height is defined as 0, it will also trigger the 2nd value even though height IS DEFINED. This is because 0 is also a falsy value 
+ let height;
+if (height) {
+    console.log('YAY! Height is defined')
+} else {
+    console.log('Height is UNDEFINED')
+}
+*/
+
+// **** LESSON 22
+/*
+const age = 18;
+if (age === 18) console.log('You just became an adult :D (strict)'); // Sidenote: Whenever an 'if' block has one line we don't need the curly braces {}
+if (age == 18) console.log('You just became an adult :D (loose)');
+
+const favourite = Number(prompt("What's your favourite number?"));
+console.log(favourite);
+console.log(typeof favourite);
+
+if (favourite === 23) {
+    console.log('Cool! 23 is an amazing number!')
+} else if (favourite === 7) {
+    console.log('7 is also a cool number')
+} else if (favourite === 9) {
+    console.log('9 is not bad either')
+} else {
+    console.log('Number is not 23 or 7')
+}
+
+if (favourite !== 23) console.log('Why not 23?');
+
+*/
+
+// **** LESSON 23 ----NONE
+
+// **** LESSON 24
+/*
+const hasDriversLicence = true // A
+const hasGoodVision = true // B
+
+console.log(hasDriversLicence && hasGoodVision);
+console.log(hasDriversLicence || hasGoodVision);
+console.log(!hasDriversLicence);
+
+
+// if (hasDriversLicence && hasGoodVision) {
+//     console.log('Sarah is able to drive')
+// } else {
+//     console.log('Someone else should drive')
 // }
+
+const isTired = true // C
+console.log(hasDriversLicence && hasGoodVision && isTired);
+
+if (hasDriversLicence && hasGoodVision && !isTired) {
+    console.log('Sarah is able to drive')
+} else {
+    console.log('Someone else should drive')
+}
+*/
+
+// **** LESSON 25 - CODING CHALENGE
+
+// const dolphinsPoints = [96, 108, 89]
+// const koalasPoints = [88, 91, 110]
+
+// const averageScoreDolphins = (97 + 112 + 101) / 3;
+// console.log(averageScoreDolphins);
+
+// const averageScoreKoalas = (109 + 95 + 106) / 3;
+// console.log(averageScoreKoalas);
+
+// const minimumScore = 100
+
+// if (averageScoreDolphins > averageScoreKoalas && averageScoreDolphins >= minimumScore) {
+//     console.log('The Dolphins are the WINNERS!')
+// } else if (averageScoreKoalas > averageScoreDolphins && averageScoreKoalas >= minimumScore) {
+//     console.log('The Koalas are the WINNERS!')
+// } else if (averageScoreDolphins === averageScoreKoalas && averageScoreDolphins >= minimumScore && averageScoreKoalas >= minimumScore) {
+//     console.log('We have a DRAW!')
+// } else {
+//     console.log('Unfortunately neither team has enough points to be declared the winner')
+// }
+
+// **** LESSON 26
+
+// const day = 'sunday';
+
+// switch(day) {
+//     case 'monday': //day === 'monday' does a strict comparison
+//         console.log('Plan course structure');
+//         console.log('Go to coding meetup');
+//         break;
+//     case 'tuesday':
+//         console.log('Prepare theory videos');
+//         break;
+//     case 'wednesday':
+//     case 'thursday':
+//         console.log('Write code examples');
+//         break;
+//     case 'friday':
+//         console.log('Record videos');
+//         break;
+//     case 'saturday':
+//     case 'sunday':
+//         console.log('Enjoy the weekend :D');
+//         break;
+//     default:
+//         console.log('Not a valid day')
+// } 
+
+// // MID VIDEO CHALLENGE
+
+
+
+// if (day === 'monday') {
+//     console.log('Plan course structure');
+//     console.log('Go to coding meetup');
+// } else if (day === 'tuesday') {
+//     console.log('Prepare theory videos');
+// } else if (day === 'wednesday' || day === 'thursday') {
+//     console.log('Write code examples');
+// } else if (day === 'friday') {
+//     console.log('Record videos');
+// } else if (day === 'saturday' || day === 'sunday') {
+//     console.log('Enjoy the weekend :D');
+// } else {
+//     console.log('Not a valid day')
+// }
+
+// **** LESSON 27
+
+// 3 + 4
+// 1991
+// true && false && !false
+
+// if (23 > 10) {
+//     const str = '23 is bigger';
+// }
+// //the whole section of code is a STATEMENT, whereas the string is an EXPRESSION
+
+// const me = 'Jonas'
+// console.log(`I'm ${me} and I'm ${2037 - 1991} years old`)
+
+// **** LESSON 28
+/*
+const age = 23;
+age >= 18 ? console.log('I like to drink wine') : console.log('I like to drink water');
+
+//Not so much used in the above format. More likely as in the example below
+
+const drink = age >= 18 ? 'wine' : 'water';
+console.log(drink);
+
+// For comparison, to do the same with an if/else block looks like the following:
+let drink2;
+if(age >= 18) {
+    drink2 = 'wine';
+} else {
+    drink2 = 'water';
+}
+console.log(drink2);
+
+console.log(`I like to drink ${age >= 18 ? 'wine' : 'water'}`)
+*/
+
+// **** LESSON 29 CODING CHALLENGE
+
+// const bill = 275
+
+// console.log(`The bill was ${bill}, the tip was ${bill >= 50 || bill <= 300 ? (bill * 0.15) : (bill * 0.2)}, and the total value `)
+
+// const bill = 275;
+// const tip = bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+
+// console.log(`The bill was ${bill}, the tip was ${tip}, and the total value ${bill + tip}`);
