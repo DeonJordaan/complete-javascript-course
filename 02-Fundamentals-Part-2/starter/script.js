@@ -399,3 +399,126 @@
 // } else if (john.bmi > mark.bmi) {
 //     console.log(`${john.fullName}'s BMI (${john.bmi}) is higher than ${mark.fullName}'s BMI (${mark.bmi})`)
 // }
+
+
+
+// **** LESSON 46
+
+// console.log('Lifting weights repetition 1');
+// console.log('Lifting weights repetition 2');
+// console.log('Lifting weights repetition 3');
+// console.log('Lifting weights repetition 4');
+// console.log('Lifting weights repetition 5');
+// console.log('Lifting weights repetition 6');
+// console.log('Lifting weights repetition 7');
+// console.log('Lifting weights repetition 8');
+// console.log('Lifting weights repetition 9');
+// console.log('Lifting weights repetition 10');
+
+// For loop keeps running while condition is true
+// for(let rep = 1; rep <= 10; rep++) {
+//     console.log(`Lifting weights repetition ${rep}`);
+// } 
+
+
+
+// LESSON 47
+
+// const jonas = [
+//     'Jonas',
+//     'Schmedtmann',
+//     2037 - 1991,
+//     'teacher',
+//     ['Michael', 'Peter', 'Steven'],
+//     true
+// ];
+// const types = [];
+
+// // Reading from jonas array
+// for (let i = 0; i < jonas.length ; i++) {
+//     console.log(jonas[i], typeof jonas[i]);
+
+//     // Filling types array
+//     // Method 1
+//     // types[i] = typeof jonas[i];
+//     // Method 2
+//     types.push(typeof jonas[i]);
+// }
+
+// console.log(types);
+
+// const years = [1991, 2007, 1969, 2020];
+// const ages = [];
+
+// for (let i = 0; i < years.length; i++) {
+//     ages.push(2037 - years[i]);
+// }
+// console.log(ages);
+
+// // CONTINUE AND BREAK
+// console.log('---ONLY STRINGS---')
+// for (let i = 0; i < jonas.length ; i++) {
+// if(typeof jonas[i] !== 'string') continue;
+
+//     console.log(jonas[i], typeof jonas[i]);
+// }
+
+// // 'break' completely terminates the whole loop
+
+// console.log('---BREAK WITH NUMBER---')
+// for (let i = 0; i < jonas.length ; i++) {
+// if(typeof jonas[i] === 'number') break;
+
+//     console.log(jonas[i], typeof jonas[i]);
+// }
+
+
+// LESSON 48
+
+// LOOPING BACKWARDS
+// const jonas = [
+//     'Jonas',
+//     'Schmedtmann',
+//     2037 - 1991,
+//     'teacher',
+//     ['Michael', 'Peter', 'Steven'],
+//     true
+// ];
+
+// for(let i = jonas.length - 1; i >= 0; i--) {
+//     console.log(i, jonas[i])
+// }
+
+
+// LOOPS INSIDE A LOOP
+
+// for (let exercise = 1; exercise < 4; exercise++) {
+//     console.log(`--------Starting exercise ${exercise}`);
+
+//     for (let rep = 1; rep < 6; rep++) {
+//         console.log(`Exercise ${exercise}: Lifting weight repetition ${rep}`);
+//     }
+// }
+
+
+// **** LESSON 49
+
+// for(let rep = 1; rep <= 10; rep++) {
+//     console.log(`Lifting weights repetition ${rep}`);
+// } 
+
+
+// let rep = 1;
+// while (rep <= 10) {
+//     // console.log(`WHILE: Lifting weights repetition ${rep}`);
+//     rep++;
+// }
+
+// let dice = Math.trunc(Math.random() * 6) + 1;
+
+// while (dice !== 6) {
+//     console.log(`You rolled a ${dice}`);
+//     dice = Math.trunc(Math.random() * 6) + 1;
+//     if (dice === 6) console.log('Loop is about to end...')
+// }
+

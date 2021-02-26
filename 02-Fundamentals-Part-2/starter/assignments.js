@@ -23,11 +23,13 @@
 // }
 
 // const worldPopulationPercentage1 = percentageOfWorld1(55);
-// console.log(worldPopulationPercentage1);
+// console.log(worldPopulationPercentage1); // 0.6962025316455696
 // const worldPopulationPercentage2 = percentageOfWorld1(8,5);
-// console.log(worldPopulationPercentage2);
+// console.log(worldPopulationPercentage2); //0.10126582278481014
 // const worldPopulationPercentage3 = percentageOfWorld1(2,1);
-// console.log(worldPopulationPercentage3);
+// console.log(worldPopulationPercentage3); // 0.025316455696202535
+
+
 
 
 // const percentageOfWorld2 = function (population) {
@@ -142,24 +144,85 @@
 
 // LECTURE 44
 
-const myCountry = {
-    country : 'Slovenia',
-    capital : 'Ljubljana',
-    language : 'Slovene',
-    population : 2.1,
-    neighbours : ['Italy', 'Austria', 'Hungary', 'Croatia'],
+// const myCountry = {
+//     country : 'Slovenia',
+//     capital : 'Ljubljana',
+//     language : 'Slovene',
+//     population : 2.1,
+//     neighbours : ['Italy', 'Austria', 'Hungary', 'Croatia'],
 
-    describe : function() {
-        console.log(`${this.country} has ${this.population} million ${this.language}-speaking people, ${this.neighbours.length} neighbouring countries and a capital called ${this.capital}.`)
-    },
+//     describe : function() {
+//         console.log(`${this.country} has ${this.population} million ${this.language}-speaking people, ${this.neighbours.length} neighbouring countries and a capital called ${this.capital}.`)
+//     },
 
-    checkIsland : function() {
-        this.isIsland = this.neighbours.length === 0 ? true : false;
-    }
-}
+//     checkIsland : function() {
+//         this.isIsland = this.neighbours.length === 0 ? true : false;
+//     }
+// }
 
-myCountry.describe();
-myCountry.checkIsland();
-console.log(myCountry);
+// myCountry.describe();
+// myCountry.checkIsland();
+// console.log(myCountry);
 
-// return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+
+// LECTURE 46
+
+// for(let voter = 1; voter <=50; voter++) {
+//     console.log(`Voter number ${voter} is currently voting`);
+// }
+
+
+
+// LECTURE 47
+
+// let worldPopulation = 7900000000;
+
+// function percentageOfWorld1(population) {
+//     return (population / worldPopulation) * 100;
+// }
+
+// const populations = [55000000, 8500000, 2100000, 126000000];
+
+// const percentages2 = [];
+
+// for (let i = 0; i <= populations.length - 1; i++) {
+//     percentages2.push(percentageOfWorld1(populations[i]));
+// }
+
+// console.log(percentages2);
+
+
+
+
+
+// LECTURE 48
+
+// const listOfNeighbours = [['Canada', 'Mexico'], ['Spain'], ['Norway', 'Sweden', 'Russia']];
+
+// for (let i = 0; i < listOfNeighbours.length; i++) {
+
+//     for (let j = 0; j < listOfNeighbours[i].length; j++ )
+//     console.log(listOfNeighbours[i][j]);
+
+// }
+
+
+// LECTURE 49
+
+// let worldPopulation = 7900000000;
+
+// function percentageOfWorld1(population) {
+//     return (population / worldPopulation) * 100;
+// }
+
+// const populations = [55000000, 8500000, 2100000, 126000000];
+
+// const percentages3 = [];
+
+// let i = 0;
+// while (i <= populations.length -1) {
+//     percentages3.push(percentageOfWorld1(populations[i]));
+//     i++;
+// }
+
+// console.log(percentages3);
