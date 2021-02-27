@@ -522,3 +522,44 @@
 //     if (dice === 6) console.log('Loop is about to end...')
 // }
 
+
+
+// LECTURE 50 CODONG CHALLENGE
+
+
+const calcTip = bills => bills >= 50 && bills <= 300 ? bills * 0.15 : bills * 0.2;
+
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+
+const tips = [];
+
+const totals = [];
+
+// MY SOLUTION
+// for(let i = 0; i < bills.length; i++) {
+//     tips.push(calcTip(bills[i]));
+//     totals.push(bills[i] + tips[i]);
+// }
+
+// JONAS SOLUTION
+for(let i = 0; i < bills.length; i++) {
+    const tip = calcTip(bills[i]);
+    tips.push(tip);
+    totals.push(tip + bills[i]);
+}
+
+console.log(bills, tips, totals);
+
+// BONUS
+const calcAverage = function (arr) {
+    let sum = 0
+    for (let k = 0; k < arr.length; k++) {
+        // sum = sum + arr[k]; // THER'S AN EASIER WAY BELOW
+        sum += arr[k];
+    }
+    let average = sum / arr.length;
+    return average
+    // return sum / arr.length // easier option to return result
+}
+
+console.log(calcAverage(totals)); 
