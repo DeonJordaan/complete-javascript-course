@@ -30,10 +30,10 @@ const restaurant = {
 	categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
 	starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
 	mainMenu: ['Pizza', 'Pasta', 'Risotto'],
-	//ES6 enhanced object literals #1
+	//NOTE ES6 enhanced object literals #1
 	openingHours,
 
-	//ES6 enhanced object literals #2
+	//NOTE ES6 enhanced object literals #2
 	order(starterIndex, mainIndex) {
 		return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
 	},
@@ -59,34 +59,221 @@ const restaurant = {
 	},
 };
 ///////////////////////////////////////
-//LECTURE 112
-if (restaurant.openingHours && restaurant.openingHours.mon)
-	console.log(restaurant.openingHours.mon.open);
+//Lecture 119 - CODING cHALLENGE #3
 
-//with Optional Chaining
-console.log(restaurant.openingHours?.mon?.open);
+const gameEvents = new Map([
+	[17, '⚽️ GOAL'],
+	[36, '🔁 Substitution'],
+	[47, '⚽️ GOAL'],
+	[61, '🔁 Substitution'],
+	[64, '🔶 Yellow card'],
+	[69, '🔴 Red card'],
+	[70, '🔁 Substitution'],
+	[72, '🔁 Substitution'],
+	[76, '⚽️ GOAL'],
+	[80, '⚽️ GOAL'],
+	[92, '🔶 Yellow card'],
+]);
 
-//Example using the for/pf loop, nullish coalescing operator & optional chaining
-const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+// 1.
+const eventsArray = [...gameEvents.values()];
+console.log(eventsArray);
+const events = [...new Set(eventsArray)];
+console.log(events);
 
-for (const day of days) {
-	const open = restaurant.openingHours[day]?.open ?? 'closed';
-	console.log(`On ${day}, we open at ${open}`);
+// 2.
+gameEvents.delete(64);
+console.log(gameEvents);
+
+// 3.
+
+const eventDuration = 90;
+console.log(
+	`An event happened on average every ${
+		eventDuration / gameEvents.size
+	} minutes`
+);
+
+// 4.
+for (const [key, value] of gameEvents) {
+	key < 45
+		? console.log(`FIRST HALF: ${key} ${value}`)
+		: console.log(`SECOND HALF: ${key} ${value}`);
 }
 
+///////////////////////////////////////
+//Lecture 117
+
+// const question = new Map([
+// 	['question', 'What is the greatest programming language in the world?'],
+// 	[1, 'C'],
+// 	[2, 'Java'],
+// 	[3, 'JavaScript'],
+// 	['correct', 3],
+// 	[true, 'Correct 🎉'],
+// 	[false, 'Try again!'],
+// ]);
+// console.log(question);
+
+//Convert Object to Map
+// console.log(Object.entries(openingHours));
+// const hoursMap = new Map(Object.entries(openingHours));
+// console.log(hoursMap);
+
+//Quiz App
+// console.log(question.get('question'));
+// for (const [key, value] of question) {
+// 	if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+// }
+// const answer = Number(prompt('Your answer'));
+// const answer = 3;
+// console.log(answer);
+
+//This works, but once again Jonas has a better solution
+// answer === 3
+// 	? console.log(question.get(true))
+// 	: console.log(question.get(false));
+// JONAS SOLUTION
+// console.log(question.get(question.get('correct') === answer));
+//NOTE This works because '(question.get('correct') === answer)' returns either 'true' or 'false'. Therefore, in the event of a correct answer 'true' is inserted in the code and then what the above basically says is consol.log(question.get(true)) which will give us the 'Correct 🎉' message
+
+//Converting a Map back to an Array
+
+// console.log([...question]);
+// console.log([...question.entries()]); // Same as line above
+// console.log([...question.keys()]);
+// console.log([...question.values()]);
+///////////////////////////////////////
+//Lecture 116
+
+// const rest = new Map();
+// rest.set('name', 'Classico Italiano');
+// rest.set(1, 'Firenze Italy');
+// console.log(rest.set(2, 'Lisbon, Portugal'));
+
+// rest.set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+// 	.set('open', 11)
+// 	.set('close', 23)
+// 	.set(true, 'We are open :D')
+// 	.set(false, 'We are closed :(');
+
+// console.log(rest.get('name'));
+// console.log(rest.get(true));
+// console.log(rest.get(1));
+
+// const time = 21;
+// console.log(rest.get(time > rest.get('open') && time < rest.get('close')));
+
+// console.log(rest.has('categories'));
+// rest.delete(2);
+// rest.clear();
+
+//Using arrays and objects as keys in a map
+// const arr = [1, 2];
+// rest.set(arr, 'Test');
+// rest.set(document.querySelector('h1'), 'Heading');
+// console.log(rest);
+// console.log(rest.size);
+
+// console.log(rest.get(arr));
+
+///////////////////////////////////////
+//Lecture 115
+
+// const ordersSet = new Set([
+// 	'Pasta',
+// 	'Pizza',
+// 	'Pizza',
+// 	'Risotto',
+// 	'Pasta',
+// 	'Pizza',
+// ]);
+// console.log(ordersSet);
+
+// console.log(new Set('Jonas'));
+
+// console.log(ordersSet.size);
+// console.log(ordersSet.has('Pizza'));
+// console.log(ordersSet.has('Bread'));
+// ordersSet.add('Garlic Bread');
+// ordersSet.add('Garlic Bread');
+// ordersSet.delete('Risotto');
+// ordersSet.clear();
+// console.log(ordersSet);
+
+// for (const order of ordersSet) console.log(order);
+
+// Example - Removing duplicate  values from arrays
+// const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+// console.log(staff);
+// const staffUnique = [...new Set(staff)];
+// console.log(staffUnique);
+
+//If we want to check the size of a set and have no need to convert it to an array, we can do the following:
+// console.log(
+// 	new Set(['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter']).size
+// );
+
+// console.log(new Set('Deon Jordaan').size);
+
+///////////////////////////////////////
+// LECTURE 113
+
+// Property Names
+// const properties = Object.keys(openingHours);
+// console.log(properties);
+
+// let openStr = `We are open on ${properties.length} days: `;
+
+// for (const day of properties) {
+// 	openStr += `${day}, `;
+// }
+// console.log(openStr);
+
+// Property Values
+// const values = Object.values(openingHours);
+// console.log(values);
+
+// Property Entries (Names & Values together)
+// const entries = Object.entries(openingHours);
+// console.log(entries);
+
+// for (const [day, { open, close }] of entries) {
+// 	console.log(`On ${day} we open at ${open} and close at ${close}`);
+// }
+
+//Me experimenting with the whole array
+// const everything = Object.keys(restaurant);
+// console.log(restaurant);
+///////////////////////////////////////
+// LECTURE 112
+// if (restaurant.openingHours && restaurant.openingHours.mon)
+// 	console.log(restaurant.openingHours.mon.open);
+
+//with Optional Chaining
+// console.log(restaurant.openingHours?.mon?.open);
+
+//Example using the for/pf loop, nullish coalescing operator & optional chaining
+// const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+// for (const day of days) {
+// 	const open = restaurant.openingHours[day]?.open ?? 'closed';
+// 	console.log(`On ${day}, we open at ${open}`);
+// }
+
 // Opional chaining and methods
-console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
-console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
+// console.log(restaurant.order?.(0, 1) ?? 'Method does not exist');
+// console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist');
 
 // Opional chaining and arrays
-// const users = [];
-const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
+// // const users = [];
+// const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
 
-console.log(users[0]?.name ?? 'User array empty');
+// console.log(users[0]?.name ?? 'User array empty');
 
 // with the old method
-if (users.length > 0) console.log(users[0].name);
-else console.log('User array empty');
+// if (users.length > 0) console.log(users[0].name);
+// else console.log('User array empty');
 
 ///////////////////////////////////////
 // LECTURE 110
@@ -95,10 +282,16 @@ else console.log('User array empty');
 
 // for (const item of menu) console.log(item);
 
+//'entries' method provides an array containing the index and value
+// for (const what of menu.entries()) {
+// 	console.log(what);
+// }
+
+//Using destructuring to output a numbered list ie index and value
 // for (const [i, el] of menu.entries()) {
 // 	console.log(`${i + 1}: ${el}`);
 // }
-//CODING CHALLENGE
+//CODING CHALLENGE LECTURES 109 & 114
 const game = {
 	team1: 'Bayern Munich',
 	team2: 'Borrussia Dortmund',
@@ -140,31 +333,32 @@ const game = {
 	},
 };
 
-//1.
-// VERKEERD
+//LECTURE 109 CHALLENGE
+// 1.
+// VERKEERD;
 // const [...players1] = game.players[0];
 // const [...players2] = game.players[1];
 // console.log(players1, players2);
 // const [players1, players2] = game.players;
 // console.log(players1, players2);
 
-//2.
+// 2.
 // const [gk, ...fieldPlayers] = players1;
 // console.log(gk, fieldPlayers);
 
-//3.
-//VERKEERD
+// 3.
+// VERKEERD
 // const allPlayers = [...game.players[0], ...game.players[1]];
 // console.log(allPlayers);
 // const allPlayers = [...players1, ...players2];
 // console.log(allPlayers);
 
-//4.
+// 4.
 // const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
 // console.log(players1Final);
 
-//5.
-//VERKEERD
+// 5.
+// VERKEERD
 // const { team1, x: draw, team2 } = game.odds;
 // console.log(team1, draw, team2);
 // const {
@@ -172,7 +366,7 @@ const game = {
 // } = game;
 // console.log(team1, draw, team2);
 
-//6.
+// 6.
 // const printGoals = function (...players) {
 // 	console.log(`${players.length} goals were scored`);
 // };
@@ -181,9 +375,76 @@ const game = {
 // printGoals(...game.scored);
 // console.log(...game.scored);
 
-//7.
+// 7.
 // team1 < team2 && console.log('Team 1 is more likely to win');
 // team1 > team2 && console.log('Team 2 is more likely to win');
+
+//LECTURE 114 CHALLENGE
+//.1
+// for (const [goal, scorer] of game.scored.entries()) {
+// 	console.log(`Goal ${goal + 1}: ${scorer}`);
+// console.log(typeof scorer);
+// }
+
+//2.
+// const odds = Object.values(game.odds);
+// console.log(odds);
+
+// const averageOdds = function (oddsValue) {
+// 	let sum = 0;
+// 	for (const avg of odds) {
+// 		sum += avg;
+// 	}
+// 	let average = sum / oddsValue.length;
+// 	return average;
+// };
+// console.log(averageOdds(odds));
+//NOTE Jonas did this without creating the function, as follows:
+
+// let average = 0;
+// for (const odd of odds) average += odd;
+// average = average / odds.length;
+// console.log(average);
+
+//3. VERKEERD
+// console.log(`Odd of victory ${game.team1}: ${game.odds.team1}`);
+// console.log(`Odd of draw: ${game.odds.x}`);
+// console.log(`Odd of victory ${game.team2}: ${game.odds.team2}`);
+//Jonas' Solution
+// for (const [team, odd] of Object.entries(game.odds)) {
+// 	const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+// 	console.log(`Odd of ${teamStr} ${odd}`);
+// }
+
+//4. BONUS
+// const scorers = Object.fromEntries(game.scored);
+
+// const scorers = Object.assign({}, game.scored);
+// console.log(scorers);
+// console.log(typeof game.scored);
+// console.log(scorers.value);
+
+//NOTE I don't really know what to do here. I suspect the I need to loop over the 'game.scored' object in some way to count the instances of eg 'Lewandovski' who socred more than once. This would be used in some way to compute the properties. This would be combined with either 'object.create' or 'obcevt.assign' to create the new object
+
+//JONAS' SOLUTION
+// So the solution is to loop over the array, and add the array elements as object properties, and then increase the count as we encounter a new occurence of a certain element
+
+// const scorers = {};
+// for (const player of game.scored) {
+// 	scorers[player] ? scorers[player]++ : (scorers[player] = 1);
+// }
+// console.log(scorers);
+
+//NOTE Explanation from Q&A discussion:
+/*
+Here we need to check if the player is already added to the object "scorers" or not.
+
+If not so add the player to the object and set its value to 1. If the player exist increment its value by 1.
+
+So for the case of 'Lewandowski' at the first loop, it will be added to the object with a value of 1 (as 'scorers[player] = false')  then when it comes again in the loop, it will NOT be added again (as 'scorers[player] = true') but it value will be incremented by 1.
+*/
+
+//for (let i = 0; (i = game.odds.length); i++)
 ///////////////////////////////////////////////////
 // LECTURE 108
 // restaurant.numGuests = 0;
