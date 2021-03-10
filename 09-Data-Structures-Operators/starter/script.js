@@ -59,6 +59,223 @@ const restaurant = {
 	},
 };
 ///////////////////////////////////////
+//CODING CHALLENGE #4
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+const btn = document.querySelector('button');
+
+btn.addEventListener('click', function () {
+	const inputValue = document
+		.querySelector('textarea')
+		.value.toLowerCase()
+		.split('\n');
+	console.log(inputValue);
+	// const splitStr = inputValue.split('\n');
+	// console.log(splitStr);
+
+	for (const element of inputValue) {
+		const lines = element.split('_');
+		console.log(lines);
+
+		// const upperCase = lines[1].toUpperCase(0);
+		// console.log(upperCase);
+		// const final = [lines[0], lines[1].toUpperCase(0)].join('');
+		// console.log(final);
+		const final = [
+			lines[0],
+			lines[1].replace(lines[1], lines[1].toUpperCase(0)),
+		].join('');
+		console.log(final);
+	}
+});
+
+/*
+.toUpperCase(0)
+
+toLowerCase
+remove whitespace
+split at _
+uppercase 2nd string
+join strings
+
+underscore_case
+first_name
+Some_Variable
+calculate_AGE
+delayed_departure
+*/
+///////////////////////////////////////
+// LECTURE 122
+
+//SPLIT METHOD
+// console.log('a+very+nice+string'.split('+'));
+// console.log('Deon Jordaan'.split(' '));
+
+//Can use destructuring to create variables directly
+//COuld do the same with 'slice, but more complicated and for longer sentences almost impossible
+// const [firstName, lastName] = 'Deon Jordaan'.split(' ');
+
+//JOIN METHOD
+// const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+// console.log(newName);
+
+// const capitalizeName = function (name) {
+// 	const names = name.toLowerCase().split(' ');
+// 	const namesUpper = [];
+
+// 	for (const n of names) {
+// namesUpper.push(n[0].toUpperCase() + n.slice(1)); //Option 1
+// 		namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+// 	}
+// 	console.log(namesUpper.join(' '));
+// };
+
+// capitalizeName('jessica ann smith davis');
+// capitalizeName('deon jordaan');
+// capitalizeName('nAdiA de vrieS');
+
+// Padding
+// const message = 'Go to gate 23!';
+// console.log(message.padStart(25, '+'));
+// console.log('Deon'.padEnd(25, '+'));
+// console.log('Deon'.padStart(25, '+').padEnd(50, '@'));
+
+//Real-world example of padding
+// const maskCreditCard = function (number) {
+// 	const str = number + ''; // Trick to converting a number to a string using the '+' operator, which turns its operands into strings
+// 	const last = str.slice(-4);
+// 	return last.padStart(str.length, '*');
+// };
+
+// console.log(maskCreditCard(76268549));
+// console.log(maskCreditCard(7648268549354682));
+// console.log(maskCreditCard('76482685493546826598'));
+
+// Repeat Method
+// const message2 = 'Bad weather... All departures delayed... ';
+// console.log(message2.repeat(5));
+
+// const planesInLine = function (n) {
+// 	console.log(`There are ${n} planes in line ${'✈'.repeat(n)}`);
+// };
+// planesInLine(3);
+// planesInLine(10);
+// planesInLine(15);
+
+///////////////////////////////////////
+//LECTURE 121
+
+// const airline = 'TAP Air Portugal';
+
+// console.log(airline.toLowerCase());
+// console.log(airline.toUpperCase());
+// console.log('airline'.toUpperCase());
+
+// Fix capitilisation in a name
+// const passenger = 'jOnAs';
+// const passengerLower = passenger.toLowerCase();
+// const passengerCorrect =
+// 	passengerLower[0].toUpperCase() + passengerLower.slice(1);
+// console.log(passengerCorrect);
+
+// Compare user input email
+
+// const email = 'hello@jonas.io';
+// const loginEmail = '  Hello@Jonas.Io \n';
+
+// const lowerEmail = loginEmail.toLowerCase();
+// const trimmedEmail = lowerEmail.trim();
+// console.log(trimmedEmail);
+
+//Can combine the two methods into one step
+// const normalizedEmail = loginEmail.toLowerCase().trim();
+// console.log(normalizedEmail);
+// console.log(email === normalizedEmail);
+
+// Replace part of a string
+// const priceGB = '288,97₤';
+// const priceUS = priceGB.replace('₤', '$').replace(',', '.');
+// console.log(priceUS);
+
+// const announcement =
+// 	'All passengers please report to boarding door 23. Boarding door 23!';
+
+// console.log(announcement.replace('door', 'gate'));
+// console.log(announcement.replaceAll('door', 'gate'));
+
+// console.log(announcement.replace(/door/g, 'gate'));
+
+// Boolean methods
+// const plane = 'Airbus A320neo';
+// console.log(plane.includes('A320'));
+// console.log(plane.includes('Boeing'));
+// console.log(plane.startsWith('Air'));
+
+// if (plane.startsWith('Airbus') && plane.endsWith('neo')) {
+// 	console.log('Part of the new Airbus family');
+// }
+
+// Practice Exercise
+// const checkBaggage = function (items) {
+// 	const baggage = items.toLowerCase();
+
+// 	if (baggage.includes('knife') || baggage.includes('gun')) {
+// 		console.log('You are NOT allowed on board');
+// 	} else {
+// 		console.log('Enjoy your flight!');
+// 	}
+// };
+
+// checkBaggage('I have a laptop, some Food and a pocket Knife');
+// checkBaggage('Socks and camera');
+// checkBaggage('Got some snacks and a gun for protection');
+
+///////////////////////////////////////
+//LECTURE 120
+
+// const airline = 'TAP Air Portugal';
+// const plane = 'A320';
+
+// console.log(plane[0]);
+// console.log(plane[1]);
+// console.log(plane[2]);
+// console.log('B737'[0]);
+
+// console.log(airline.length);
+// console.log('B737'.length);
+
+// console.log(airline.indexOf('r'));
+// console.log(airline.lastIndexOf('r'));
+// console.log(airline.indexOf('Portugal'));
+
+// console.log(airline.slice(4));
+// console.log(airline.slice(4, 7));
+
+// console.log(airline.slice(0, airline.indexOf(' ')));
+// console.log(airline.slice(airline.indexOf(' ') + 1)); // The '+ 1' removes the space, as the extraction starts at the beginning parameter, which in this case is a space
+
+// console.log(airline.slice(-2));
+// console.log(airline.slice(1, -1));
+
+// const checkMiddleSeat = function (seat) {
+// 	const s = seat.slice(-1);
+// 	if (s === 'B' || s === 'E') console.log('You got the middle seat 😢');
+// 	else console.log('You got lucky 😎');
+// };
+
+// checkMiddleSeat('11B');
+// checkMiddleSeat('23C');
+// checkMiddleSeat('3E');
+// checkMiddleSeat('5F');
+
+// console.log(new String('jonas'));
+// console.log(typeof new String('jonas'));
+
+// console.log(typeof new String('jonas').slice(1));
+
+///////////////////////////////////////
 //Lecture 119 - CODING cHALLENGE #3
 
 const gameEvents = new Map([
@@ -76,30 +293,49 @@ const gameEvents = new Map([
 ]);
 
 // 1.
-const eventsArray = [...gameEvents.values()];
-console.log(eventsArray);
-const events = [...new Set(eventsArray)];
-console.log(events);
+//SORT OF WRONG. CAN BE DONE IN SINGLE PROCESS
+//Thought I had to convert it from a map to an array before converting to set and then array
+//Explains some confusion I felt about it being an array and not a set upon completing 2nd step
+// const eventsArray = [...gameEvents.values()];
+// console.log(eventsArray);
+// const events = [...new Set(eventsArray)];
+// console.log(events);
+//JONAS
+// const events = [...new Set(gameEvents.values())];
+// console.log(events);
 
 // 2.
-gameEvents.delete(64);
-console.log(gameEvents);
+// gameEvents.delete(64);
+// console.log(gameEvents);
 
 // 3.
-
-const eventDuration = 90;
-console.log(
-	`An event happened on average every ${
-		eventDuration / gameEvents.size
-	} minutes`
-);
+//Jonas did not declare the 90min duration as a variable. Hardcoded the game duration inside the string
+// const eventDuration = 90;
+// console.log(
+// 	`An event happened on average every ${
+// 		eventDuration / gameEvents.size
+// 	} minutes`
+// );
+//BONUS method: Uses the .pop method to remove the last key, which contains the final minute the game was still running
+//.pop not only removes the element from the array, it also returns it to us. Hence we can assign it to the time variable
+// const time = [...gameEvents.keys()].pop();
+// console.log(time);
+// console.log(
+// 	`An event happened on average every ${time / gameEvents.size} minutes`
+// );
 
 // 4.
-for (const [key, value] of gameEvents) {
-	key < 45
-		? console.log(`FIRST HALF: ${key} ${value}`)
-		: console.log(`SECOND HALF: ${key} ${value}`);
-}
+//AGAIN, this works, but Jonas has a different approach
+// for (const [key, value] of gameEvents) {
+// 	key < 45
+// 		? console.log(`FIRST HALF: ${key} ${value}`)
+// 		: console.log(`SECOND HALF: ${key} ${value}`);
+// }
+//JONAS
+// for (const [min, event] of gameEvents) {
+// 	const half = min <= 45 ? 'FIRST' : 'SECOND';
+// 	console.log(` [${half} HALF] ${min}: ${event}`);
+// }
 
 ///////////////////////////////////////
 //Lecture 117
