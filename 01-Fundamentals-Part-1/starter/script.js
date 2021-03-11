@@ -428,6 +428,8 @@ if (hasDriversLicence && hasGoodVision && !isTired) {
 // const me = 'Jonas'
 // console.log(`I'm ${me} and I'm ${2037 - 1991} years old`)
 
+
+
 // **** LESSON 28
 /*
 const age = 23;
