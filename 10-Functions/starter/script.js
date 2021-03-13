@@ -126,52 +126,139 @@
 
 //LECTURE 132/////////////////////
 
-const lufthansa = {
-	airline: 'Lufthansa',
-	iataCode: 'LH',
-	bookings: [],
-	book(flightNum, name) {
-		console.log(
-			`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
-		);
-		this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
-	},
-};
+// const lufthansa = {
+// 	airline: 'Lufthansa',
+// 	iataCode: 'LH',
+// 	bookings: [],
+// 	book(flightNum, name) {
+// 		console.log(
+// 			`${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+// 		);
+// 		this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+// 	},
+// };
 
-lufthansa.book(239, 'Deon Jordaan');
-lufthansa.book(647, 'Nadia De Vries');
+// lufthansa.book(239, 'Deon Jordaan');
+// lufthansa.book(647, 'Nadia De Vries');
 
-const eurowings = {
-	airline: 'EuroWings',
-	iataCode: 'EW',
-	bookings: [],
-};
+// const eurowings = {
+// 	airline: 'EuroWings',
+// 	iataCode: 'EW',
+// 	bookings: [],
+// };
 
-const book = lufthansa.book;
+// const book = lufthansa.book;
 
 //Does NOT work
 // book(23, 'Etienne Jordaan');
 
 //Call Method
-book.call(eurowings, 23, 'Sarah Williams');
-console.log(eurowings);
+// book.call(eurowings, 23, 'Sarah Williams');
 
-book.call(lufthansa, 268, 'Carlos Marques');
+// book.call(lufthansa, 268, 'Carlos Marques');
 
-console.log(lufthansa);
+// const swiss = {
+// 	airline: 'SwissAir',
+// 	iataCode: 'LX',
+// 	bookings: [],
+// };
 
-const swiss = {
-	airline: 'SwissAir',
-	iataCode: 'LX',
-	bookings: [],
-};
-
-book.call(swiss, 471, 'Anne Scherner');
+// book.call(swiss, 471, 'Anne Scherner');
 
 //Apply Method
-const flightData = [583, 'Gavin Rossouw'];
-const flightInfo = [143, 'James Dawson'];
+// const flightData = [583, 'Gavin Rossouw'];
+// const flightInfo = [143, 'James Dawson'];
 
-book.apply(swiss, flightData);
-book.call(swiss, ...flightInfo);
-console.log(swiss);
+// book.apply(swiss, flightData);
+// book.call(swiss, ...flightInfo);
+
+//LECTURE 132/////////////////////
+// Bind method
+
+// const bookEW = book.bind(eurowings);
+// const bookLH = book.bind(lufthansa);
+// const bookLX = book.bind(swiss);
+
+// bookEW(23, 'Raoul De Villers');
+
+// const bookEW23 = book.bind(eurowings, 23);
+// bookEW23('Liezl Claxton');
+// bookEW23('Marie Claxton');
+
+// console.log(lufthansa);
+// console.log(swiss);
+// console.log(eurowings);
+
+//'bind' with eventlisteners
+// lufthansa.planes = 300;
+// lufthansa.buyPlane = function () {
+// 	console.log(this);
+// 	this.planes++;
+// 	console.log(this.planes);
+// };
+// lufthansa.buyPlane();
+
+// document
+// 	.querySelector('.buy')
+// 	.addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+
+// Partial Application
+
+// const addTax = (rate, value) => value + value * rate;
+// console.log(addTax(0.1, 200));
+
+// const addVAT = addTax.bind(null, 0.23);
+// console.log(addVAT(100));
+// console.log(addVAT(23));
+
+// Challenge
+// const taxCalc = function (rate) {
+// 	return function (value) {
+// 		console.log(value + value * rate);
+// 	};
+// };
+// const addVAT2 = taxCalc(0.23);
+// console.log(addVAT(100));
+// console.log(addVAT(23));
+
+// LECTURE 134 - CODING CHALLENGE
+
+const poll = {
+	question: 'What is your favorite programming language?',
+	options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+	answers: new Array(4).fill(0),
+	registerNewAnswer() {
+		let answer = Number(
+			prompt(
+				`What is your favorite programming language?\n0: JavaScript\n1: Python\n2: Rust\n3: C++\n(Write option number)`
+			)
+		);
+		if (answer < 0 || answer > 3) {
+			prompt(
+				`Please choose one of the options!\n0: JavaScript\n1: Python\n2: Rust\n3: C++\n(Write option number)`
+			);
+		} else if (answer === 0) {
+			this.answers[0]++;
+		} else if (answer === 1) {
+			this.answers[1]++;
+		} else if (answer === 2) {
+			this.answers[2]++;
+		} else if (answer === 3) {
+			this.answers[3]++;
+		}
+		// console.log(this.displayResults(poll.answers));
+	},
+	displayResults(type) {
+		if (typeof type === Array) {
+			console.log(poll.answers);
+		} else if (typeof type === String) {
+			console.log(`Poll results are ${poll.answers}`);
+		}
+	},
+};
+
+document.querySelector('.poll').addEventListener(
+	'click',
+	poll.registerNewAnswer.bind(poll)
+	// poll.displayResults.bind(poll)
+);
