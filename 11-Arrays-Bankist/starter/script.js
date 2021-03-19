@@ -83,6 +83,20 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+//LECTURE 149 EXAMPLE
+const createUsernames = function (accs) {
+	accs.forEach(function (acc) {
+		acc.username = acc.owner
+			.toLowerCase()
+			.split(' ')
+			.map(name => name[0])
+			.join('');
+	});
+};
+
+createUsernames(accounts);
+console.log(accounts);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURE
@@ -93,7 +107,7 @@ displayMovements(account1.movements);
 // 	['GBP', 'Pound sterling'],
 // ]);
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 
@@ -140,7 +154,7 @@ displayMovements(account1.movements);
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 // Using a for/of loop
-console.log('-----for/of-----');
+// console.log('-----for/of-----');
 // for (const movement of movements) {
 // 	if (movement > 0) {
 // 		console.log(`You deposited ${Math.abs(movement)}`);
@@ -201,3 +215,63 @@ console.log('-----for/of-----');
 // currenciesUnique.forEach(function (value, _, map) {
 // 	console.log(`${value}: ${value}`);
 // });
+
+//LECTURE 146 - CODING CHALLENGE
+
+// const dogsJulia = [3, 5, 2, 12, 7];
+// const dogsKate = [4, 1, 15, 8, 3];
+
+// const dogsJulia = [9, 16, 6, 8, 3];
+// const dogsKate = [10, 5, 6, 1, 4];
+
+//NOTE Did not do EXACTLY as Jonas said, as I didn't specifically make a copy of the incorrect array, but nonetheless, he did not specifically tell us to use '.splice' as he mentioned in the video
+// const checkDogs = function (dogs1, dogs2) {
+// 	const allDogs = dogs1.slice(1, -2).concat(dogs2);
+
+// 	allDogs.forEach(function (age, i) {
+// 		if (age >= 3) {
+// 			console.log(
+// 				`Dog number ${i + 1} is an adult, and is ${age} years old`
+// 			);
+// 		} else {
+// 			console.log(`Dog number ${i + 1} is still a puppy 🐶`);
+// 		}
+
+//LECTURE 148
+
+// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map(mov => mov * eurToUsd);
+
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementsUSDfor = [];
+// for (const mov of movements) movementsUSDfor.push(mov * eurToUsd);
+// console.log(movementsUSDfor);
+
+// const movementsDescriptions = movements.map((mov, i) => {
+// 	`Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+// 		mov
+// 	)}`;
+// });
+
+// console.log(movementsDescriptions);
+
+//LECTURE 150
+
+const deposits = movements.filter(function (mov) {
+	return mov > 0;
+});
+console.log(movements);
+console.log(deposits);
+
+// Using the for/of method
+// const depositsFor = [];
+// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+// console.log(depositsFor);
+
+const withdrawels = movements.filter(mov => mov < 0);
+console.log(withdrawels);
