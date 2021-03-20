@@ -65,7 +65,7 @@ const displayMovements = function (movements) {
 	containerMovements.innerHTML = '';
 
 	movements.forEach(function (mov, i) {
-		const type = mov > 0 ? 'deposit' : 'withdrawel';
+		const type = mov > 0 ? 'deposit' : 'withdrawal';
 
 		const html = `
     <div class="movements">
@@ -73,7 +73,7 @@ const displayMovements = function (movements) {
       <div class="movements__type movements__type--${type}">${
 			i + 1
 		} ${type}</div>
-      <div class="movements__value">${mov}</div>
+      <div class="movements__value">${mov}€</div>
     </div>
   `;
 
@@ -82,6 +82,35 @@ const displayMovements = function (movements) {
 };
 
 displayMovements(account1.movements);
+
+const calcDisplayBalance = function (movements) {
+	const balance = movements.reduce((acc, mov) => acc + mov, 0);
+	labelBalance.textContent = `${balance}€`;
+};
+calcDisplayBalance(account1.movements);
+
+const calcDisplaySummary = function (movements) {
+	const incomes = movements
+		.filter(mov => mov > 0)
+		.reduce((acc, mov) => acc + mov, 0);
+	labelSumIn.textContent = `${incomes}€`;
+
+	const out = movements
+		.filter(mov => mov < 0)
+		.reduce((acc, mov) => acc + mov, 0);
+	labelSumOut.textContent = `${Math.abs(out)}€`;
+
+	const interest = movements
+		.filter(mov => mov > 0)
+		.map(deposit => (deposit * 1.2) / 100)
+		.filter((int, i, arr) => {
+			// console.log(arr);
+			return int >= 1;
+		})
+		.reduce((acc, int) => acc + int, 0);
+	labelSumInterest.textContent = `${interest}€`;
+};
+calcDisplaySummary(account1.movements);
 
 //LECTURE 149 EXAMPLE
 const createUsernames = function (accs) {
@@ -95,7 +124,6 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts);
-console.log(accounts);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -262,16 +290,142 @@ const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 //LECTURE 150
 
-const deposits = movements.filter(function (mov) {
-	return mov > 0;
-});
-console.log(movements);
-console.log(deposits);
+// const deposits = movements.filter(function (mov) {
+// 	return mov > 0;
+// });
+// console.log(movements);
+// console.log(deposits);
 
 // Using the for/of method
 // const depositsFor = [];
 // for (const mov of movements) if (mov > 0) depositsFor.push(mov);
 // console.log(depositsFor);
 
-const withdrawels = movements.filter(mov => mov < 0);
-console.log(withdrawels);
+// const withdrawels = movements.filter(mov => mov < 0);
+// console.log(withdrawels);
+
+//LECTURE 151
+
+// console.log(movements);
+
+// accumulator = SNOWBALL with normal function
+// const balance = movements.reduce(function (acc, cur, i, arr) {
+// 	console.log(`Iteration ${i}: ${acc}`);
+// 	return acc + cur;
+// }, 0);
+
+// accumulator = SNOWBALL with arrow function
+// const balance = movements.reduce((acc, cur) => acc + cur, 0);
+
+// console.log(balance);
+
+// let balance2 = 0;
+// for (const mov of movements) balance2 += mov;
+// console.log(balance2);
+
+// Maximum value of movements array
+
+// Max movement: my solution
+// const bigMove = movements.reduce((acc, cur) => {
+// 	if (acc < cur) {
+// 		acc = cur;
+// 	}
+// 	return acc;
+// }, 0);
+// console.log(bigMove);
+
+// Max movement: Jonas' solution
+// const max = movements.reduce((acc, mov) => {
+// 	if (acc > mov) return acc;
+// 	else return mov;
+// }, movements[0]);
+// console.log(max);
+
+//LECTURE 152 - CODING CHALLENGE
+
+const ages = [5, 2, 4, 1, 15, 8, 3];
+// const ages = [16, 6, 10, 5, 6, 1, 4];
+
+///////FIXME WHY DOES THIS NOT WORK? RETURNS AN ARRAY OF 'undefined' WHEN RETURN IS REMOVED, OTHERWISE DOESN OT UPDATE TO HUMAN AGES
+// const humanAge = ages.map(ages => {
+// 	if (ages <= 2) {
+// 		ages * 2;
+// 	} else {
+// 		(16 + ages) * 4;
+// 	}
+// 	// return ages;
+// });
+// console.log(humanAge);
+////////////////
+
+//FIXME Not getting all the way. Each of these methods returns an array, but I'm not saving that in a const. Hence, I cannot divide the final answer by .length because the length of 'age' is still 7, not the required 5 elements left after filtering. If I'd saved every result to a new array (seeing as each methods returns an array) I would be able to do that.
+// const calcAverageHumanAge = function (age) {
+// 	const humanAge =
+// 		age
+// 			.map(age => (age <= 2 ? age * 2 : 16 + age * 4))
+// 			.filter(age => age > 18)
+// 			.reduce((acc, cur) => acc + cur, 0) / age.length;
+
+// 	console.log(humanAge);
+// };
+
+// calcAverageHumanAge(ages);
+
+//NOTE UPDATE: After watching more of the video and seeing Jonas talk about chaining the methods and accessing length by using the 'arr' which is INCLUDED WITH ALL THESE METHODS!
+const calcAverageHumanAge = age =>
+	age
+		.map(age => (age <= 2 ? age * 2 : 16 + age * 4))
+		.filter(age => age > 18)
+		.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+// console.log(calcAverageHumanAge(ages));
+
+//NOTE Jonas' solution which is much longer but probably better...going to actually ask about this one on Discord!
+
+// const calcAverageHumanAge = function (ages) {
+// 	const humanAges = ages.map(age => (age <= 2 ? age * 2 : 16 + age * 4));
+// 	const adults = humanAges.filter(age => age >= 18);
+// 	const average = adults.reduce((acc, age) => acc + age, 0) / adults.length;
+// 	return average;
+// };
+
+// console.log(calcAverageHumanAge(ages));
+
+//LECTURE 153
+
+// const eurToUSD = 1.1;
+// const totalDepositsUSD = movements
+// 	.filter(mov => mov > 0)
+// 	.map(mov => mov * eurToUSD)
+// 	.reduce((acc, mov) => acc + mov, 0);
+// console.log(totalDepositsUSD);
+
+/* Using the array passed in by every method to debug
+const eurToUSD = 1.1;
+const totalDepositsUSD = movements
+	.filter(mov => mov > 0)
+	.map((mov, i, arr) => {
+		console.log(arr)
+		return mov * eurToUSD
+	})
+	.reduce((acc, mov) => acc + mov, 0);
+console.log(totalDepositsUSD);
+*/
+
+// LECTURE 155
+
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+
+for (const accountFor of accounts) {
+	if (accountFor.owner === 'Jessica Davis') {
+		console.log(accountFor);
+	}
+}
+// console.log(accountFor);
