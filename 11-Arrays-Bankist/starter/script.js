@@ -567,18 +567,17 @@ console.log(arrDeep.flat(2));
 
 // .flat method
 const overallBalance = accounts
-	.map(acc => acc.movements)
-	.flat()
-	.reduce((acc, mov) => acc + mov, 0);
+	.map(acc => acc.movements) // Takes the figures from the accounts.movements arrays and places each of these arrays in the new overallBalance array
+	.flat() // Removes the nesting, turning the array of arrays into an array containing ALL the amounts from all those arrays in one single array of elements
+	.reduce((acc, mov) => acc + mov, 0); // Accumulates all the amounts into a total amount
 console.log(overallBalance);
 
-// .flatMap method
+// .flatMap method - combines the .map and .flat methods from the previous example into a single method
 const overallBalance2 = accounts
 	.flatMap(acc => acc.movements)
 	.reduce((acc, mov) => acc + mov, 0);
 console.log(overallBalance2);
 */
-
 //LECTURE 161
 /*
 // Strings
@@ -613,7 +612,7 @@ console.log(movements);
 */
 
 // LECTURE 162
-
+/*
 // Creating manual arrays
 console.log([1, 2, 3, 4, 5, 6, 7]);
 console.log(new Array(1, 2, 3, 4, 5, 6, 7));
@@ -635,7 +634,7 @@ console.log(arr);
 const y = Array.from({ length: 7 }, () => 1);
 console.log(y);
 
-const z = Array.from({ length: 7 }, (_, i) => i + 1);
+const z = Array.from({ length: 7 }, (_, i) => i + 1); // Setting the length of the array and using the index value to fill it. +1 mens the array will start from 1 and not 0, which is the first index value, since indexes ALWAYS start from 0
 console.log(z);
 
 // Converting a node-list to an array
@@ -647,3 +646,252 @@ labelBalance.addEventListener('click', function () {
 	);
 	console.log(movementsUI);
 });
+*/
+
+//LECTURE 164
+/*
+
+// Exercise 1
+const bankDepositSum = accounts
+	.flatMap(acc => acc.movements)
+	.filter(mov => mov > 0)
+	.reduce((sum, cur) => sum + cur, 0);
+
+console.log(bankDepositSum);
+
+// Exercise 2
+// The easy way
+// const numDeposits1000 = accounts
+// 	.flatMap(acc => acc.movements)
+// 	.filter(mov => mov >= 1000).length;
+
+// Using reduce to count an array
+const numDeposits1000 = accounts
+	.flatMap(acc => acc.movements)
+	// .reduce((count, cur) => (cur >= 1000 ? count + 1 : count), 0);
+	.reduce((count, cur) => (cur >= 1000 ? ++count : count), 0); //NOTE The ++ DOES NOT work in POSTFIXED use, it must be PREFIXED. See NOTE below
+
+console.log(numDeposits1000);
+
+// NOTE The prefixed ++
+// Postfixed ++ increments the value, but returns the OLD value before incrementation
+let a = 10;
+console.log(a++); // Postfixed ++ logs the original value that it returns = 10
+console.log(a); // Logs the new value = 11
+
+let b = 10;
+console.log(++b); // Prefixed ++ logs the already incremented value = 11
+console.log(b); // Logs the new value = 11
+
+// Exercise 3 - Using reduce to calculate an amount and place it into an object
+// NOTE Great example of using something other than a primitive value as the accumulator in the .reduce method
+
+const { deposits, withdrawals } = accounts
+	.flatMap(acc => acc.movements)
+	.reduce(
+		(sums, cur) => {
+			// cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur); //Can apply DRY to streamline this code
+			sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur; //Cleaner...SPARKLING clean!
+			return sums;
+		},
+		{ deposits: 0, withdrawals: 0 }
+	);
+
+console.log(deposits, withdrawals);
+
+// Exercise 4 - Convert a string to Titlecase
+// this is a nice title => This Is a Nice Title
+
+const convertTitleCase = function (title) {
+	const capitalize = str => str[0].toUpperCase() + str.slice(1);
+	const exceptions = [
+		'a',
+		'an',
+		'and',
+		'the',
+		'but',
+		'or',
+		'on',
+		'in',
+		'with',
+	];
+
+	const titleCase = title
+		.toLowerCase()
+		.split(' ')
+		.map(word => (exceptions.includes(word) ? word : capitalize(word)))
+		.join(' ');
+	return capitalize(titleCase);
+};
+
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+*/
+
+//LECTURE 165 - Coding Challenge
+
+const dogs = [
+	{ weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+	{ weight: 8, curFood: 200, owners: ['Matilda'] },
+	{ weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+	{ weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// Task 1
+// Loop over the 'dogs' array containing dog objects, and for each dog, calculate
+// the recommended food portion and add it to the object as a new property. Do
+// not create a new array, simply loop over the array. Forumla:
+// recommendedFood = weight ** 0.75 * 28. (The result is in grams of
+// food, and the weight needs to be in kg)
+
+//My solution that didn't work, but the basic idea was correct
+// const recommendedFood = function (dogs) {
+// 	dogs.forEach(function (dog) {
+// 		dog.recFood = dog.weight ** 0.75 * 28;
+// 	});
+// };
+
+dogs.forEach(dog => (dog.recFood = Math.trunc(dog.weight ** 0.75 * 28)));
+
+console.log(dogs);
+
+// Task 2
+// Find Sarah's dog and log to the console whether it's eating too much or too
+// little. Hint: Some dogs have multiple owners, so you first need to find Sarah in
+// the owners array, and so this one is a bit tricky (on purpose) 🤓
+
+// COMPLETELY WRONG
+// const sarahsDog = function (dogs) {
+// 	if (dogs.some(e => e.owners === 'Frank'));
+// 	return true;
+// };
+// console.log(sarahsDog(dogs));
+
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(
+	// I got this bit right...small victories....like tiny......miniscule!
+	`${dogSarah.owners[0]}'s dog eats too ${
+		dogSarah.curFood > dogSarah.recFood ? 'much' : 'little'
+	}`
+);
+
+// Task 3
+// Create an array containing all owners of dogs who eat too much
+// ('ownersEatTooMuch') and an array with all owners of dogs who eat too little
+// ('ownersEatTooLittle').
+
+//NOTE Suppose I overcomplicated this by wanting to do it in one move. This did not really work, except for the .flatMap section in version 1
+// The problem with version two is that .flatMap gives me an array of the owners names and now I'm trying to check which dog eat too much/little against that array. this will never work, because I need the information contained in the FULL array....DUH!!!
+
+//FIXME Still wonder if it is possible using .reduce?
+
+//Version one...
+// const owners = dogs.flatMap(dog => dog.owners);
+// console.log(owners);
+
+// const [ownersEatTooMuch, ownersEatTooLittle] = dogs
+// 	.flatMap(dog => dog.owners)
+// 	.reduce(
+// 		(acc, cur) => {
+// 			acc[
+// 				cur.curFood > cur.recFood
+// 					? ownersEatTooMuch.push(acc.owners)
+// 					: ownersEatTooLittle.push(acc.owners)
+// 			];
+// 			return acc;
+// 		},
+// 		{ ownersEatTooMuch: 0, ownersEatTooLittle: 0 }
+// 	);
+//TODO example from Yulia on lecture Q&A board
+// owners = dogs.reduce((ownsarray, dog) => {
+
+// 	dog.curFood > dog.recommendedFood ? ownsarray[0].push(dog.owners) : ownsarray[1].push(dog.owners);
+
+// 	return ownsarray;
+
+//   }, [[],[]])
+
+//   const ownersEatTooMuch = [...owners[0].flat()];
+
+//   const ownersEatTooLittle = [...owners[1].flat()];
+//
+// and an example from Nicholas
+// const { ownersEatTooMuch, ownersEatTooLittle } = dogs.reduce(
+// 	(obj, dog) => {
+// 	  dog.curFood > dog.recFood
+// 		? obj.ownersEatTooMuch.push(...dog.owners)
+// 		: obj.ownersEatTooLittle.push(...dog.owners);
+// 	  return obj;
+// 	},
+// 	{ ownersEatTooMuch: [], ownersEatTooLittle: [] }
+//   );
+
+//   console.log(ownersEatTooMuch.join(' and ') + ' dogs eat too much!');
+//   console.log(ownersEatTooLittle.join(' and ') + ' dogs eat too little!');
+
+// NOTE In this example from a previous exercise we assign values to two separate arrays using one .reduce function. Surely something lie this must be possible with Task 3...?
+// const { deposits, withdrawals } = accounts
+// 	.flatMap(acc => acc.movements)
+// 	.reduce(
+// 		(sums, cur) => {
+// 			// cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur); //Can apply DRY to streamline this code
+// 			sums[cur > 0 ? 'deposits' : 'withdrawals'] += cur; //Cleaner...SPARKLING clean!
+// 			return sums;
+// 		},
+// 		{ deposits: 0, withdrawals: 0 }
+// 	);
+// console.log(deposits, withdrawals);
+
+//Jonas' Solution
+
+const ownersEatTooMuch = dogs
+	.filter(dog => dog.curFood > dog.recFood)
+	.flatMap(dog => dog.owners);
+console.log(ownersEatTooMuch);
+
+const ownersEatTooLittle = dogs
+	.filter(dog => dog.curFood < dog.recFood)
+	.flatMap(dog => dog.owners);
+console.log(ownersEatTooLittle);
+
+// Task 4
+//NOTE So this is not quite right. I basically hardcoded the string in the sense that, if the owners array had more than these three elements, I would have to change the string literal...BAD, BAD, BAD!!!
+// console.log(
+// 	`${ownersEatTooMuch[0]}, ${ownersEatTooMuch[1]} and ${ownersEatTooMuch[2]}'s dogs eat too much!`
+// );
+// console.log(
+// 	`${ownersEatTooLittle[0]}, ${ownersEatTooLittle[1]} and ${ownersEatTooLittle[2]}'s dogs eat too little!`
+// );
+
+// Jonas' Solution
+console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much!`);
+console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little!`);
+
+// Task 5
+// WRONG...need to use .some
+// for (const enough of dogs) {
+// 	console.log(dogs.curFood === dogs.recFood);
+// ? console.log(true)
+// : console.log(false);
+// }
+
+// Jonas' Solution
+console.log(dogs.some(dog => dog.curFood === dog.recFood));
+
+// Task 6
+const checkEatingOk = dog =>
+	dog.curFood >= dogs.recFood * 0.5 && dog.curFood <= dog.recFood * 1.1;
+
+console.log(dogs.some(checkEatingOk));
+
+// Task 7
+console.log(dogs.filter(checkEatingOk));
+
+const what = dogs.map(dogs => dogs.curFood / dogs.recFood);
+console.log(what);
+
+// Task 8
+
+const dogsSorted = dogs.slice().sort((a, b) => a.recFood - b.recFood);
+console.log(dogsSorted);
