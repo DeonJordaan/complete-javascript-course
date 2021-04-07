@@ -13,7 +13,6 @@ const tabsContent = document.querySelectorAll('.operations__content');
 
 ///////////////////////////////////////
 // Modal window
-
 const openModal = function (e) {
   e.preventDefault();
   modal.classList.remove('hidden');
@@ -82,7 +81,7 @@ btnScrollTo.addEventListener('click', function (e) {
 //   });
 // });
 
-// 1. Add eventListener to commin parent element
+// 1. Add eventListener to common parent element
 // 2. Determine what element originated the event
 
 document.querySelector('.nav__links').addEventListener('click', function (e) {
@@ -96,7 +95,6 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
 });
 
 // Tabbed Component
-
 tabsContainer.addEventListener('click', function (e) {
   const clicked = e.target.closest('.operations__tab');
 
@@ -117,7 +115,6 @@ tabsContainer.addEventListener('click', function (e) {
 });
 
 // Menu Fade Animation
-
 const handleHover = function (e) {
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
@@ -144,7 +141,7 @@ nav.addEventListener('mouseover', handleHover.bind(0.5));
 nav.addEventListener('mouseout', handleHover.bind(1));
 
 // Sticky Navigation
-
+/*
 const initialCoords = section1.getBoundingClientRect();
 // console.log(initialCoords);
 
@@ -154,6 +151,185 @@ window.addEventListener('scroll', function (e) {
   if (window.scrollY > initialCoords.top) nav.classList.add('sticky');
   else nav.classList.remove('sticky');
 });
+*/
+
+// Sticky Navigation: Intersection Observer API
+
+// const obsCallback = function (entries, observer) {
+//   entries.forEach(entry => {
+//     // console.log(entry);
+//   });
+// };
+
+// const obsOptions = {
+//   root: null,
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// observer.observe(section1);
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+
+headerObserver.observe(header);
+
+// Reveal Sections
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry.target);
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+  // section.classList.add('section--hidden');
+});
+
+// Lazy Loading Images
+const imgTargets = document.querySelectorAll('img[data-src]');
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+
+  // Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+imgTargets.forEach(img => imgObserver.observe(img));
+
+// Slider Function
+const slider = function () {
+  const slides = document.querySelectorAll('.slide');
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotContainer = document.querySelector('.dots');
+
+  let curSlide = 0;
+  const maxSlide = slides.length;
+
+  // Reducing the scale of the slider during build so we can see all the components
+  // const slider = document.querySelector('.slider');
+  // slider.style.transform = 'scale(0.4) translateX(-800px)';
+  // slider.style.overflow = 'visible';
+
+  // Functions
+  const createDots = function () {
+    slides.forEach(function (_, i) {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  const activateDot = function (slide) {
+    document
+      .querySelectorAll('.dots__dot')
+      .forEach(dot => dot.classList.remove('dots__dot--active'));
+
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add('dots__dot--active');
+  };
+
+  const goToSlide = function (slide) {
+    slides.forEach(
+      (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+    );
+  };
+
+  // Next slide
+  const nextSlide = function () {
+    if (curSlide === maxSlide - 1) {
+      curSlide = 0;
+    } else {
+      curSlide++;
+    }
+
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  // Previous slide
+  const prevSlide = function () {
+    if (curSlide === 0) {
+      curSlide = maxSlide - 1;
+    } else {
+      curSlide--;
+    }
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  const init = function () {
+    goToSlide(0);
+    createDots();
+    activateDot(0);
+  };
+  init();
+
+  // Event Handlers
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+
+  document.addEventListener('keydown', function (e) {
+    // Option 1
+    // if (e.key === 'ArrowLeft') prevSlide();
+    // if (e.key === 'ArrowRight') nextSlide();
+
+    // Option 2 using shortcircuiting NOTE
+    e.key === 'ArrowRight' && nextSlide();
+    e.key === 'ArrowLeft' && prevSlide();
+  });
+
+  dotContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('dots__dot')) {
+      const { slide } = e.target.dataset;
+      // const slide = e.target.dataset.slide; //??? Why is are these two the same?
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
+};
+slider();
 
 ///////////////////////////////////////
 ///////////////////////////////////////
@@ -166,10 +342,12 @@ console.log(document.head);
 console.log(document.body);
 
 const header = document.querySelector('.header');
-const allSections = document.querySelector('.section');
+const allSections = document.querySelectorAll('.section');
 console.log(allSections);
 
-document.getElementById('section--1');
+const sect1 = document.getElementById('section--1');
+console.log(sect1);
+
 const allButtons = document.getElementsByTagName('button');
 console.log(allButtons);
 
@@ -207,6 +385,7 @@ message.style.width = '120%';
 console.log(message.style.height); // This does not work because .style cannot read this element property
 console.log(message.style.backgroundColor); // Can only read element properties that were also set with .style
 
+console.log(getComputedStyle(message));
 console.log(getComputedStyle(message).color);
 console.log(getComputedStyle(message).height);
 
@@ -344,13 +523,14 @@ document.querySelector('.nav').addEventListener(
 // LECTURE 190
 /*
 const h1 = document.querySelector('h1');
+console.log(h1);
 
 // Going downwards: selecting child elements
-console.log(h1.querySelectorAll('.highlight'));
-console.log(h1.childNodes);
-console.log(h1.children);
-h1.firstElementChild.style.color = 'gold';
-h1.lastElementChild.style.color = 'chartreuse';
+console.log(h1.querySelectorAll('.highlight')); // Selects all children of the parent according to set criteria, no matter how deep the child elements were
+console.log(h1.childNodes); // Selects DIRECT children. Returns ALL nodes inside a NodeList ie text, comments, br.
+console.log(h1.children); // Returns an HTMLCollection of ONLY elements that are direct children
+h1.firstElementChild.style.color = 'gold'; //Selecting the FIRST element child
+h1.lastElementChild.style.color = 'chartreuse'; //Selecting the LAST element child
 
 // Going upwards: selecting parent elements
 console.log(h1.parentNode);
@@ -370,3 +550,19 @@ console.log(h1.parentElement.children);
   if (el !== h1) el.style.transform = 'scale(0.5)';
 });
 */
+
+// LECTURE 199
+
+document.addEventListener('DOMContentLoaded', function (e) {
+  console.log('HTML parsed and DOM tree built!', e);
+});
+
+window.addEventListener('load', function (e) {
+  console.log('Page fully loaded', e);
+});
+
+// window.addEventListener('beforeunload', function (e) {
+//   e.preventDefault();
+//   console.log(e);
+//   e.returnValue = '';
+// });
