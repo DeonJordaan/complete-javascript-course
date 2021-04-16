@@ -114,9 +114,9 @@ class PersonCl {
     this.fullName = fullName;
     this.birthYear = birthYear;
   }
-
-  // I
-  // Methods will be added to .prototype property. Called instance methods.
+  
+  // Instance Methods
+  // Methods will be added to .prototype property.
   calcAge() {
     console.log(2021 - this.birthYear);
   }
@@ -317,7 +317,7 @@ console.dir(Student.prototype.constructor);
 */
 
 //LECTURE 216
-
+/*
 const Car = function (make, speed) {
   this.make = make;
   this.speed = speed;
@@ -360,3 +360,222 @@ tesla.accelerate();
 console.log(tesla);
 tesla.break();
 console.log(tesla);
+*/
+
+// LECTURE 217
+/*
+class PersonCl {
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
+    this.birthYear = birthYear;
+  }
+
+  // I
+  // Methods will be added to .prototype property. Called instance methods.
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  }
+
+  greet() {
+    console.log(`Hey ${this.firstName}`);
+  }
+
+  get age() {
+    return 2021 - this.birthYear;
+  }
+
+  // Setting a property that already exists
+  set fullName(name) {
+    if (name.includes(' ')) this._fullName = name;
+    else alert(`${name} is not a full name!`);
+  }
+
+  get fullName() {
+    return this._fullName;
+  }
+
+  // Setting a static method
+  static hey() {
+    console.log('Hey there! 👋');
+  }
+}
+
+class StudentCl extends PersonCl {
+  constructor(fullName, birthYear, course) {
+    // MUST always call the super function first in this constructor
+    super(fullName, birthYear);
+    this.course = course;
+  }
+
+  introduce() {
+    console.log(`My name is ${this.fullName} and I am studying ${this.course}`);
+  }
+
+  calcAge() {
+    console.log(
+      `I'm ${
+        2021 - this.birthYear
+      } years old, but as a student I feel more like ${
+        2021 - this.birthYear + 10
+      }`
+    );
+  }
+}
+
+const nadia = new StudentCl('Nadia De Vries', 1981, 'Integrative Nutrition');
+// const deon = new StudentCl('Deon Jordaan', 1976, 'Web Development');
+
+nadia.introduce();
+nadia.calcAge();
+*/
+
+// LECTURE 218
+/*
+const PersonProto = {
+  calcAge() {
+    console.log(2021 - this.birthYear);
+  },
+
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+const StudentProto = Object.create(PersonProto);
+
+StudentProto.init = function (firstName, birthYear, course) {
+  PersonProto.init.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+StudentProto.introduce = function () {
+  console.log(`My name is ${this.firstName} and I am studying ${this.course}`);
+};
+
+const jay = Object.create(StudentProto);
+jay.init('Jay', 2000, 'Computer Science');
+jay.introduce();
+jay.calcAge();
+*/
+
+// LECTURE 219 & LECTURE 220
+/*
+class Account {
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected property
+    this._pin = pin;
+    this._movements = [];
+    this.locale = navigator.language;
+
+    console.log(`Thank you for opening an account, ${this.owner}`);
+  }
+
+  // Public interface of our object
+
+  getMovements() {
+    return this._movements;
+  }
+  deposit(val) {
+    this._movements.push(val);
+  }
+
+  // Can also call other methods insdie a new method
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  _approveLoan(val) {
+    return true;
+  }
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Approved loan for ${this.currency} ${val}`);
+    }
+  }
+}
+
+const acc1 = new Account('Deon', 'ZAR', 2104);
+console.log(acc1);
+
+// NOTE: We can add to the movements array like this, but we should never interact with an object like this
+// In stead we should create methods that interact with these properties
+// acc1.movements.push(250);
+// acc1.movements.push(-50);
+
+acc1.deposit(250);
+acc1.withdraw(140);
+acc1.requestLoan(1000);
+acc1._approveLoan(2000); // This method should be protected by data encapsulation and privacy to not be available to anyone outside the methods calling it
+console.log(acc1.getMovements());
+
+console.log(acc1);
+console.log(acc1.pin);
+*/
+
+// LECTURE 221
+
+// NOTE Private CLass Fields
+// 1. Public fields
+// 2. Private fields
+// 3. Public methods
+// 4. Provate methods
+// There are also static versions
+
+class Account {
+  //NOTE Public fields
+  locale = navigator.language;
+
+  //NOTE Private fields
+  #movements = [];
+  #pin;
+
+  constructor(owner, currency, pin) {
+    this.owner = owner;
+    this.currency = currency;
+    // Protected property with _
+    this.#pin = pin;
+    // this._movements = [];
+    // this.locale = navigator.language;
+
+    console.log(`Thank you for opening an account, ${this.owner}`);
+  }
+
+  //NOTE 3. Public Methods
+  // Public interface of our object
+  getMovements() {
+    return this.#movements;
+  }
+  deposit(val) {
+    this.#movements.push(val);
+  }
+
+  // Can also call other methods insdie a new method
+  withdraw(val) {
+    this.deposit(-val);
+  }
+
+  requestLoan(val) {
+    if (this._approveLoan(val)) {
+      this.deposit(val);
+      console.log(`Approved loan for ${this.currency} ${val}`);
+    }
+  }
+  // NOTE 4. Private methods
+  // #approveLoan(val) {
+  _approveLoan(val) {
+    return true;
+  }
+}
+
+const acc1 = new Account('Deon', 'ZAR', 2104);
+console.log(acc1);
+
+// console.log(acc1.#movements);
+// console.log(acc1.#pin);
+// console.log(acc1.#approveLoan(1000));
