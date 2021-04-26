@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
@@ -30,7 +30,7 @@ const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
   countriesContainer.style.opacity = 1;
 };
-
+*/
 ///////////////////////////////////////
 //LECTURE 244
 /*
@@ -169,7 +169,7 @@ console.log(request);
 // };
 
 //LECTURE 249
-
+/*
 const getJSON = function (url, errorMsg = 'Something went wrong') {
   return fetch(url).then(response => {
     if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
@@ -177,7 +177,7 @@ const getJSON = function (url, errorMsg = 'Something went wrong') {
     return response.json();
   });
 };
-
+*/
 // Chaining AJAX calls NOTE The inefficient way without the getJSON function above
 // const getCountryData = function (country) {
 //   // Country 1
@@ -245,7 +245,7 @@ const getCountryData = function (country) {
 // */
 
 // LECTURE 252 - Coding Challenge
-
+/*
 //NOTE My solution making use of the 'getCountryData' function we made earlier to render the country
 // const whereAmI = function (lat, lng) {
 //   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
@@ -287,3 +287,211 @@ btn.addEventListener('click', function () {
   // whereAmI(19.037, 72.873);
   whereAmI(-33.933, 18.474);
 });
+*/
+
+// LECTURE 254
+/*
+console.log('Test start');
+setTimeout(() => console.log('0 sec timer'), 0);
+Promise.resolve('Resolved Promise 1').then(res => console.log(res));
+
+Promise.resolve('Resolved promise 2').then(res => {
+  for (let i = 0; i < 1000000000; i++) {}
+  console.log(res);
+});
+console.log('Test end');
+*/
+
+// LECTURE 255
+/*
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery draw is running...🤞');
+  setTimeout(function () {
+    if (Math.random() > 0.5) {
+      resolve('You WIN! 💰');
+    } else {
+      reject(new Error('You lost your money 💩'));
+    }
+  }, 2000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+
+// Promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(1)
+  .then(() => {
+    console.log('I waited 1 seconds');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('I waited 2 seconds');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('I waited 3 seconds');
+    return wait(1);
+  })
+  .then(() => console.log('I waited 4 seconds'));
+
+Promise.resolve('abc').then(x => console.log(x));
+Promise.reject(new Error('Not abc!')).catch(x => console.error(x));
+*/
+
+// LECTURE 256
+/*
+// Callback based
+// navigator.geolocation.getCurrentPosition(
+//   position => console.log(position),
+//   err => console.error(err)
+// );
+// console.log('Getting location');
+
+// Promisifyed - Promise based
+// First version
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     navigator.geolocation.getCurrentPosition(
+//       position => resolve(position),
+//       err => reject(err)
+//     );
+//   });
+// };
+
+// Simpler version
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getPosition().then(pos => console.log(pos));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    })
+    .then(response => {
+      if (response.status === 403) throw new Error('Too many requests!');
+      return response.json();
+    })
+    .then(data => {
+      console.log(`You are in ${data.city}, ${data.country}`);
+
+      return fetch(`https://restcountries.eu/rest/v2/name/${data.country}`);
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Country not found (${res.status})`);
+
+      return res.json();
+    })
+    .then(data => renderCountry(data[0]))
+    .catch(err => console.log(`${err} ❗❗❗`));
+};
+
+btn.addEventListener('click', whereAmI);
+*/
+
+// LECTURE 257 - Coding Challenge
+
+/*
+let image;
+
+// TODO THIS IS AS FAR AS I GOT 
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    image = document.createElement('img');
+    image.addEventListener('load', () => {
+      document.querySelector('.images').appendChild(image);
+      resolve(image);
+    });
+    image.addEventListener('error', reject);
+    image.src = imgPath;
+    return image;
+  })
+    .then(() => {
+      wait(2).then(() => (image.style.display = 'none'));
+      return image;
+    })
+    .then(() => {
+      wait(2).then(() => (image.style.display = 'flex'));
+    });
+  // }).then(() => {
+  //   wait(2).then(console.log('wtf'));
+};
+
+
+// .catch(err => console.log(`${err} Image not loaded 🤷‍♂️`));
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+// wait(1).then(() => {
+//   console.log('I waited 1 seconds');
+//   return wait(1);
+// });
+
+createImage('img/img-1.jpg');
+*/
+
+// NOTE JONAS' SOLUTION
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const imgContainer = document.querySelector('.images');
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const image = document.createElement('img');
+    image.src = imgPath;
+
+    image.addEventListener('load', function () {
+      imgContainer.append(image);
+      resolve(image);
+    });
+
+    image.addEventListener('error', function () {
+      reject(new Error('Image not found'));
+    });
+  });
+};
+
+let currentImg;
+
+createImage('img/img-1.jpg')
+  .then(image => {
+    currentImg = image;
+    console.log('Image 1 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return wait(2);
+  })
+  .then(() => {
+    return createImage('img/img-2.jpg');
+  })
+  .then(image => {
+    currentImg = image;
+    console.log('Image 2 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+  })
+  .catch(err => console.error(err));
