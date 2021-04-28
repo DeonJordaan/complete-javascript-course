@@ -604,7 +604,7 @@ get3Countries('kazakhstan', 'norway', 'vietnam');
 */
 
 // LECTURE 262
-
+/*
 // Promise.race
 (async function () {
   const res = await Promise.race([
@@ -653,3 +653,82 @@ Promise.any([
 ])
   .then(res => console.log(res))
   .catch(err => console.error(err));
+*/
+// LECTURE 263 - Coding Challenge
+// /*
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const imgContainer = document.querySelector('.images');
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const image = document.createElement('img');
+    image.src = imgPath;
+
+    image.addEventListener('load', function () {
+      imgContainer.append(image);
+      resolve(image);
+    });
+
+    image.addEventListener('error', function () {
+      reject(new Error('Image not found'));
+    });
+  });
+};
+
+// Part 1
+const loadNPause = async function () {
+  try {
+    let img = await createImage('img/img-1.jpg');
+    console.log('Image 1 loaded');
+    await wait(2);
+    img.style.display = 'none';
+
+    await wait(2);
+
+    img = await createImage('img/img-2.jpg');
+    console.log('Image 2 loaded');
+    await wait(2);
+    img.style.display = 'none';
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// loadNPause();
+
+// Part 2
+// FIXME My pretty weak attempt
+// const loadAll = async function (imgArr) {
+//   try {
+//     const imgArray = await Promise.all(imgArr);
+
+//     const imgs = await imgArray.map(img => createImage(img));
+
+//     const images = document.querySelectorAll('.images');
+//     images.classList.add('parallel');
+
+//     console.log(imgs);
+//   } catch (err) {
+//     console.error(err);
+//   }
+// };
+
+// Jonas' Solution
+const loadAll = async function (imgArr) {
+  try {
+    const imgs = imgArr.map(async img => await createImage(img));
+
+    const imgsEl = await Promise.all(imgs);
+
+    imgsEl.forEach(img => img.classList.add('parallel'));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
