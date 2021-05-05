@@ -21,4 +21,4 @@ npm-debug.log*
 
 package-lock.json
 
-.prettierrc
+prettierrc
